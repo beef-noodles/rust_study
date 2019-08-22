@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+// use std::fmt::Debug;
 trait HasArea {
   fn area(&self) -> f64;
 }
@@ -57,4 +57,33 @@ pub fn run() {
   let baz = Baz{};
   baz.foo();
   // println!("{}",baz.fooBar());
+
+  #[derive(Debug)]
+  struct Food{
+    a: i32,
+    b: bool,
+  }
+  impl Copy for Food {}
+  impl Clone for Food {
+    fn clone (&self) -> Food {
+      Food {
+        a: self.a,
+        b: self.b,
+      }
+    }
+  }
+  let x = Food {a: 12, b: true};
+  let mut y = x;
+  y.b = false;
+  println!("{:?}", x);
+  println!("{:?}", y);
+
+  let mut aa = String::from("abc");
+  let bb ;
+  // {
+    let mut some_clousure = |c: char| aa.push(c);
+    bb = some_clousure('e');
+  // }
+  println!("{:?}", aa);
+  println!("bb:{:?}", bb);
 }

@@ -4,10 +4,11 @@
 // mod hash;
 // mod matchs;
 // mod traits;
-mod genric;
+// mod genric;
+mod borrow;
 
 fn main() {
-    genric::run();
+    borrow::run();
     // cli::run();
     println!("hello");
 }

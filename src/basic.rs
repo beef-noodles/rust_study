@@ -69,4 +69,20 @@ pub fn run() {
   println!("{:?}", v.get(9));
   assert_eq!(v.get(9), Some(&9));
   assert_eq!(v.get(10), None);
+  println!("=======================");
+  let testStr = "tests";
+  // fn test() {
+  //   testStr = "123";
+  //   println!("{}", testStr);
+  // }
+  println!("{}", testStr);
+
+  let x = "哎呦我去".to_string();
+  for i in x.chars() {
+    println!("{}", i)
+  }
+  println!("{:?}", x.chars().nth(2));
+  let a = String::from("Hello world guzhongren");
+  let b = a.clone();
+  println!("{}", b)
 }
