@@ -8,10 +8,8 @@
 // mod borrow;
 // mod a;
 // use a::b::c::d;
-
-mod file;
-
-
+// mod file;
+mod std;
 fn main() {
     // borrow::run();
     // cli::run();
@@ -21,7 +19,7 @@ fn main() {
     //     None => println!("No file extension found."),
     //     Some(i) => println!("File extension is {}",&file_name[i+1..]),
     // }
-    file::file::read_file();
-    
+    // file::file::read_file();
+    std::run();
     println!("hello");
 }
