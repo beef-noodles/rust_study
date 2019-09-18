@@ -9,7 +9,8 @@
 // mod a;
 // use a::b::c::d;
 // mod file;
-mod std;
+// mod std;
+mod impls;
 fn main() {
     // borrow::run();
     // cli::run();
@@ -20,6 +21,7 @@ fn main() {
     //     Some(i) => println!("File extension is {}",&file_name[i+1..]),
     // }
     // file::file::read_file();
-    std::run();
+    // std::run();
+    impls::run();
     println!("hello");
 }

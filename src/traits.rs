@@ -80,10 +80,10 @@ pub fn run() {
 
   let mut aa = String::from("abc");
   let bb ;
-  // {
+  {
     let mut some_clousure = |c: char| aa.push(c);
     bb = some_clousure('e');
-  // }
+  }
   println!("{:?}", aa);
   println!("bb:{:?}", bb);
 }
