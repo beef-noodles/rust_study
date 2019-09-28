@@ -19,7 +19,7 @@ fn main() {
         data: None
     };
 
-    let rows_updated = conn.execute("create table person (
+    let rows_updated = conn.execute("create table IF NOT EXISTS person (
         id              SERIAL PRIMARY KEY,
         name            VARCHAR NOT NULL,
         data            BYTEA
