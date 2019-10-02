@@ -1,41 +1,27 @@
 extern crate postgres;
+mod db;
 
-use postgres::{Connection, TlsMode};
+// use postgres::{Connection, TlsMode};
 
-struct Person {
-    id: i32,
-    name: String,
-    data: Option<Vec<u8>>,
-}
+use db::*;
 
+// struct Blog {
+//     title: String,
+//     body: String,
+// }
 fn main() {
-    println!("Hello, world!");
-    let url = "postgresql://postgres:000000@localhost:5432/rust";
-    let conn = Connection::connect(url, TlsMode::None).unwrap();
-    // println!("{:?}", conn);
-    let me = Person {
-        id: 0,
-        name: String::from("guzhongren"),
-        data: None
-    };
-
-    let rows_updated = conn.execute("create table IF NOT EXISTS person (
-        id              SERIAL PRIMARY KEY,
-        name            VARCHAR NOT NULL,
-        data            BYTEA
-    )", &[]).unwrap();
-    println!("{}", rows_updated);
-    let rows_updated = conn.execute("insert into person(name, data) values($1, $2)", &[&me.name, &me.data]).unwrap();
-    println!("{}", rows_updated );
-
-    let all = conn.query("select id, name, data from person", &[]).unwrap();
-    for row in &all {
-        let person = Person{
-            id: row.get(0),
-            name: row.get(1),
-            data: row.get(2)
-        };
-        println!("Person: {}", person.name);
-    }
+    let conn = connect();
     
+    // let blog = Blog{
+    //     title: String::from("title"),
+    //     body: String::from("body"),
+    // };
+    // let title = blog.title.to_string();
+    // let body = blog.body.to_string();
+    // insert_blog(&conn, &title, &body);
+    // for row in query::<String>(&conn, "select * from blog") {
+    //     print!("{:?}", row);
+    // }
+    // let sql = "select * from person";
+    // query_all(&conn, &sql);
 }
