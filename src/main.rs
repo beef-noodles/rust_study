@@ -1,27 +1,16 @@
-extern crate postgres;
-mod db;
+mod utils;
+mod modal;
+use utils::db::{get_client, init_db};
+use modal::blog::{Blog, insert as insert_blog, query_all as query_all_blog};
 
-// use postgres::{Connection, TlsMode};
-
-use db::*;
-
-// struct Blog {
-//     title: String,
-//     body: String,
-// }
-fn main() {
-    let conn = connect();
-    
-    // let blog = Blog{
-    //     title: String::from("title"),
-    //     body: String::from("body"),
-    // };
-    // let title = blog.title.to_string();
-    // let body = blog.body.to_string();
-    // insert_blog(&conn, &title, &body);
-    // for row in query::<String>(&conn, "select * from blog") {
-    //     print!("{:?}", row);
-    // }
-    // let sql = "select * from person";
-    // query_all(&conn, &sql);
+pub fn main() {
+    let mut client = get_client();
+    init_db(&mut client);
+    let blog = Blog{
+        title: "test".to_string(),
+        body: "testst".to_string()
+    };
+    let row_inserted = insert_blog(&mut client, &blog.title, &blog.body);
+    println!("{}", row_inserted);
+    query_all_blog(&mut client);
 }
