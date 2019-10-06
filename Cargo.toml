@@ -8,3 +8,5 @@ edition = "2018"
 
 [dependencies]
 postgres="0.16.0-rc.2"
+actix-web = "1.0.8"
+serde = "1.0.101"
