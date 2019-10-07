@@ -18,9 +18,9 @@
 
 
 use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result};
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 struct Info {
     userid: u32,
     friend: String,
@@ -45,6 +45,13 @@ fn index_form(info: web::Form<Info>) -> Result<String> {
 fn index_path_and_query ((path, web::Query(query)): (web::Path<(u32, String)>, web::Query<Info>)) -> Result<String> {
     println!("{}", "test");
     Ok(format!("parameter from path and qeury :Welcome {}, friend{}, userid: {}", query.friend, path.1, path.0))
+}
+
+fn response_json(info: web::Path<Info>) -> Result<HttpResponse> {
+    Ok(HttpResponse::Ok().json(Info{
+        userid: info.userid,
+        friend: info.friend.to_string(),
+    }))
 }
 
 fn index() -> impl Responder {
@@ -73,6 +80,7 @@ fn main() {
                 // .route("/query", web::get().to(index_query)) 与下面的service等价，需要在index_query 上面加入宏
                 .service(index_query)
                 .route("json", web::post().to(index_json))
+                .route("responseJson/{userid}/{friend}", web::get().to(response_json))
                 .route("form", web::post().to(index_form))
                 .route("pathAndQuery/{id}/{name}", web::get().to(index_path_and_query))
                 .route("users/{userid}/{friend}", web::get().to(index_path)),
