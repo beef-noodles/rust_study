@@ -1,24 +1,13 @@
-// mod utils;
-// mod modal;
-// use utils::db::{get_client, init_db};
-// use modal::blog::{Blog, insert as insert_blog, query_all as query_all_blog};
-
-// fn run() {
-//     let mut client = get_client();
-//     init_db(&mut client);
-//     let blog = Blog{
-//         title: "test".to_string(),
-//         body: "testst".to_string()
-//     };
-//     let row_inserted = insert_blog(&mut client, &blog.title, &blog.body);
-//     println!("{}", row_inserted);
-//     query_all_blog(&mut client);
-// }
-
-
-
-use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result};
+#[macro_use]
+extern crate dotenv_codegen;
+use actix_web::{web, App, HttpResponse, HttpServer, Responder, Result, middleware::Logger};
 use serde::{Deserialize, Serialize};
+use env_logger;
+
+
+
+mod modal;
+use modal::auth::{generate_jwt};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Info {
@@ -70,11 +59,15 @@ fn index3() -> impl Responder {
 }
 
 fn main() {
-    // run();
+    std::env::set_var("RUST_LOG", dotenv!("RUST_LOG"));
+    env_logger::init();
     HttpServer::new(|| {
-        App::new().service(
+        App::new()
+        .wrap(Logger::default())
+        .service(
             web::scope("api")
                 .route("/", web::get().to(index))
+                .route("/login", web::post().to(generate_jwt))
                 .route("/again", web::get().to(index2))
                 .service(index3)
                 // .route("/query", web::get().to(index_query)) 与下面的service等价，需要在index_query 上面加入宏
