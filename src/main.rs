@@ -60,7 +60,7 @@ fn index3() -> impl Responder {
 }
 
 fn main() {
-    std::env::set_var("RUST_LOG", dotenv!("RUST_LOG"));
+    std::env::set_var(dotenv!("LOG_KEY"), dotenv!("LOG_VALUE"));
     env_logger::init();
     HttpServer::new(|| {
         App::new()

@@ -16,13 +16,7 @@ pub fn auth(base_info: web::Form<LoginBaseInfo>) -> Result<HttpResponse> {
     "username": base_info.username.clone(),
     "role": "admin",
   });
-  let baseInfo = LoginBaseInfo{
-    username: base_info.username.clone(),
-    password: base_info.password.clone(),
-  };
-  let header = json!({});
-  let secret = "guzhongren";
-  let jwt = generate_jwt(&baseInfo, &payload).unwrap();
+  let jwt = generate_jwt(&payload);
   Ok(HttpResponse::Ok().json(JwtResponse{
     code: 200,
     data: jwt,

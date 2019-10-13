@@ -1,7 +1,6 @@
 extern crate frank_jwt;
 extern crate dotenv_codegen;
 use frank_jwt::{ encode, Algorithm };
-use actix_web::{web, HttpResponse, Result};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
@@ -11,12 +10,11 @@ pub struct LoginBaseInfo {
   pub password: String,
 }
 
-pub fn generate_jwt(baseInfo: &LoginBaseInfo, payload: &Value) -> Result<String> {
+pub fn generate_jwt(payload: &Value) -> String {
   let header = json!({
     "alg": "HS256",
     "typ": "JWT"
   });
   let secret = dotenv!("salt");
-  let jwt = encode(header, &secret.to_string(), &payload, Algorithm::HS256).unwrap();
-  Ok(jwt)
+  encode(header, &secret.to_string(), &payload, Algorithm::HS256).unwrap()
 }
