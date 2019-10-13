@@ -1,8 +1,8 @@
-extern crate frank_jwt;
-use frank_jwt::{ encode, Algorithm};
+
 use actix_web::{web, HttpResponse, Result};
-use serde::{Deserialize, Serialize};
 use serde_json::json;
+use serde::{Deserialize, Serialize};
+use model::auth::{LoginBaseInfo, generate_jwt};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct JwtResponse {
@@ -10,20 +10,19 @@ pub struct JwtResponse {
   data: String,
   message: String,
 }
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Login {
-  username: String,
-  password: String,
-}
 
-pub fn generate_jwt(login: web::Form<Login>) -> Result<HttpResponse> {
+pub fn auth(baseInfo: web::Form<LoginBaseInfo>) -> Result<HttpResponse> {
   let payload = json!({
-    "username": login.username,
+    "username": baseInfo.username,
     "role": "admin",
   });
+  let baseInfo = LoginBaseInfo{
+    username: baseInfo.username,
+    password: baseInfo.password,
+  };
   let header = json!({});
   let secret = "guzhongren";
-  let jwt = encode(header, &secret.to_string(), &payload, Algorithm::HS256).unwrap();
+  let jwt = generate_jwt(&baseInfo);
   Ok(HttpResponse::Ok().json(JwtResponse{
     code: 200,
     data: jwt,

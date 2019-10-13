@@ -6,8 +6,9 @@ use env_logger;
 
 
 
-mod modal;
-use modal::auth::{generate_jwt};
+mod model;
+mod controller;
+use controller::auth::{auth};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct Info {
@@ -67,7 +68,7 @@ fn main() {
         .service(
             web::scope("api")
                 .route("/", web::get().to(index))
-                .route("/login", web::post().to(generate_jwt))
+                .route("/login", web::post().to(auth))
                 .route("/again", web::get().to(index2))
                 .service(index3)
                 // .route("/query", web::get().to(index_query)) 与下面的service等价，需要在index_query 上面加入宏
