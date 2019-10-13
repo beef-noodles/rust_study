@@ -2,7 +2,7 @@
 use actix_web::{web, HttpResponse, Result};
 use serde_json::json;
 use serde::{Deserialize, Serialize};
-use model::auth::{LoginBaseInfo, generate_jwt};
+use crate::model::auth::{LoginBaseInfo, generate_jwt};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct JwtResponse {
@@ -11,18 +11,18 @@ pub struct JwtResponse {
   message: String,
 }
 
-pub fn auth(baseInfo: web::Form<LoginBaseInfo>) -> Result<HttpResponse> {
+pub fn auth(base_info: web::Form<LoginBaseInfo>) -> Result<HttpResponse> {
   let payload = json!({
-    "username": baseInfo.username,
+    "username": base_info.username.clone(),
     "role": "admin",
   });
   let baseInfo = LoginBaseInfo{
-    username: baseInfo.username,
-    password: baseInfo.password,
+    username: base_info.username.clone(),
+    password: base_info.password.clone(),
   };
   let header = json!({});
   let secret = "guzhongren";
-  let jwt = generate_jwt(&baseInfo);
+  let jwt = generate_jwt(&baseInfo, &payload).unwrap();
   Ok(HttpResponse::Ok().json(JwtResponse{
     code: 200,
     data: jwt,
