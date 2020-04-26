@@ -45,7 +45,8 @@ use std::sync::mpsc;
 use std::time::Duration;
 
 fn main() {
-    let (tx, rx) = mpsc::channel();
+    let (sender, reviver) = mpsc::channel();
+    let sender1 = sender.clone();
     thread::spawn(move|| {
         let vals = vec![
             String::from("Hi"),
@@ -54,11 +55,23 @@ fn main() {
             String::from("thread"),
         ];
         for val in vals {
-            tx.send(val).unwrap();
+            sender1.send(val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
-    for r in rx {
+    thread::spawn(move|| {
+        let vals = vec![
+            String::from("A"),
+            String::from("B"),
+            String::from("C"),
+            String::from("D"),
+        ];
+        for val in vals {
+            sender.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+    for r in reviver {
         println!("Got {}", r);
     }
 }
