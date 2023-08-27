@@ -3,5 +3,6 @@ members = [
 	"./basic",
 	"./deref",
 	"./borrow",
+	"io",
 	"webassembly"
 ]
