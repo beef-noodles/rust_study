@@ -1,3 +1,4 @@
+pub mod enums;
 // #[test]
 // #[should_panic]
 // fn it_works() {
@@ -24,7 +25,6 @@
 // fn expensive_test() {
 //     // code
 // }
-
 
 pub fn add_three(a: i32) -> i32 {
     a + 3

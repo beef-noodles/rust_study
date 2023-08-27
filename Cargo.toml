@@ -4,5 +4,6 @@ members = [
 	"./deref",
 	"./borrow",
 	"io",
+	"workspace",
 	"webassembly"
 ]
