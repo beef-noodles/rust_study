@@ -1,9 +1,11 @@
 [workspace]
+resolver = "2"
 members = [
-	"./basic",
-	"./deref",
-	"./borrow",
-	"io",
-	"workspace",
-	"webassembly"
+    "./basic",
+    "./deref",
+    "./borrow",
+    "io",
+    "workspace",
+    "./json_handler",
+    "webassembly",
 ]
