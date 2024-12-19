@@ -12,9 +12,14 @@ brew install wasmtime
 ### Build
 
 ```sh
-cargo search cargo-build --target wasm32-wasi --release
+cargo build --target wasm32-wasi  --release
 ```
 
+### Run
+
+```sh
+wasmtime target/wasm32-wasi/release/wasi_metrics.wasm 
+```
 
 ## Ref
 
